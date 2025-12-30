@@ -15,227 +15,6 @@
                        WITH DARK/LIGHT MODE + NOTIFICATIONS
         ═══════════════════════════════════════════════════════════════ */
         
-        /* ========== LOADING SCREEN ========== */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-circle {
-            width: 80px;
-            height: 80px;
-            border: 4px solid transparent;
-            border-top: 4px solid #2ecc71;
-            border-right: 4px solid #2ecc71;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .loader-text {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            color: #2ecc71;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* ========== FLOATING PARTICLES ========== */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #2ecc71;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        /* ========== PARALLAX FLOATING ELEMENTS ========== */
-        .floating-element {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.1;
-            font-size: 100px;
-        }
-
-        .float-1 { top: 10%; left: 5%; animation: parallax-float 8s ease-in-out infinite; }
-        .float-2 { top: 60%; right: 10%; animation: parallax-float 10s ease-in-out infinite reverse; }
-        .float-3 { bottom: 20%; left: 15%; animation: parallax-float 12s ease-in-out infinite; }
-
-        @keyframes parallax-float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(20px, -30px) rotate(5deg); }
-            50% { transform: translate(-10px, 20px) rotate(-5deg); }
-            75% { transform: translate(15px, 10px) rotate(3deg); }
-        }
-
-        /* ========== GLASSMORPHISM CARDS ========== */
-        .feature-box {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d;
-        }
-
-        /* Gradient Border */
-        .feature-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 12px;
-            padding: 2px;
-            background: linear-gradient(135deg, #2ecc71, transparent, #2ecc71);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .feature-box:hover::before {
-            opacity: 1;
-        }
-
-        /* 3D Transform on Hover */
-        .feature-box:hover {
-            transform: translateY(-10px) rotateX(3deg) rotateY(-3deg);
-            box-shadow: 
-                0 20px 40px rgba(46, 204, 113, 0.3),
-                0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Glow Effect */
-        .feature-box::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(46, 204, 113, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: -1;
-        }
-
-        .feature-box:hover::after {
-            opacity: 1;
-        }
-
-        /* ========== RIPPLE EFFECT ========== */
-        .ripple {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ripple-effect {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transform: scale(0);
-            animation: ripple-animation 0.6s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* ========== ANIMATED LOGO ========== */
-        .farm-logo {
-            animation: float-logo 3s ease-in-out infinite;
-        }
-
-        @keyframes float-logo {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* ========== SHIMMER TEXT ========== */
-        .farm-title {
-            background: linear-gradient(90deg, #fff, #2ecc71, #fff);
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { background-position: 200% 0; }
-            50% { background-position: -200% 0; }
-        }
-
-        /* ========== ENTER BUBBLE ANIMATION ========== */
-        .enter-bubble {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { 
-                box-shadow: 0 15px 40px rgba(46, 204, 113, 0.3);
-            }
-            50% { 
-                box-shadow: 0 20px 50px rgba(46, 204, 113, 0.5);
-                transform: scale(1.02);
-            }
-        }
-
         /* CSS Variables for Theme */
         :root {
             /* Light Theme */
@@ -269,11 +48,6 @@
             --toggle-circle: #ffffff;
             --toggle-sun: #f39c12;
             --toggle-moon: #95a5a6;
-            
-            /* Pump Status Colors */
-            --pump-on: #2ecc71;
-            --pump-off: #e74c3c;
-            --pump-fault: #f39c12;
         }
         
         /* Dark Theme Variables */
@@ -304,11 +78,6 @@
             --toggle-circle: #2c3e50;
             --toggle-sun: #f39c12;
             --toggle-moon: #f1c40f;
-            
-            /* Pump Status Colors */
-            --pump-on: #27ae60;
-            --pump-off: #c0392b;
-            --pump-fault: #e67e22;
         }
         
         * {
@@ -527,8 +296,6 @@
             min-height: 100vh;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             flex-direction: column;
-            position: relative;
-            z-index: 1;
         }
         
         @media (min-width: 1024px) {
@@ -548,7 +315,6 @@
             position: relative;
             overflow: hidden;
             min-height: 50vh;
-            z-index: 2;
         }
         
         @media (min-width: 768px) {
@@ -575,7 +341,6 @@
                 radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
             background-size: 40px 40px;
             opacity: 0.5;
-            z-index: -1;
         }
         
         .farm-logo {
@@ -780,7 +545,6 @@
             justify-content: center;
             padding: 40px 20px;
             min-height: 50vh;
-            z-index: 2;
         }
         
         @media (min-width: 768px) {
@@ -858,8 +622,6 @@
             transition: all 0.3s;
             color: white;
             -webkit-tap-highlight-color: transparent;
-            position: relative;
-            overflow: hidden;
         }
         
         @media (min-width: 768px) {
@@ -1108,12 +870,12 @@
         }
         
         .pump-status-container.pump-fault {
-            background: #fff3e0 !important;
-            color: var(--warning-color) !important;
-            animation: pulse-yellow 1s infinite !important;
+            background: #ffebee !important;
+            color: var(--danger-color) !important;
+            animation: pulse-red 1s infinite !important;
         }
         
-        @keyframes pulse-yellow {
+        @keyframes pulse-red {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
@@ -1133,8 +895,8 @@
         }
         
         .pump-fault .pump-status-dot {
-            background: var(--warning-color);
-            animation: pulse-yellow 1s infinite;
+            background: var(--danger-color);
+            animation: pulse-red 1s infinite;
         }
         
         .connection-bubble {
@@ -1203,8 +965,6 @@
             border: 2px solid transparent;
             -webkit-tap-highlight-color: transparent;
             flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
         }
         
         .action-bubble:active {
@@ -1370,7 +1130,7 @@
         
         /* MOBILE SECTION VIEW */
         .mobile-section {
-            display: none;
+            display: block;
         }
         
         @media (max-width: 767px) {
@@ -1389,6 +1149,15 @@
             
             .dash-col {
                 margin-bottom: 15px;
+            }
+            
+            /* सेंसर और कंट्रोल्स को एक साथ दिखाएं */
+            #sectionControls {
+                display: block !important;
+            }
+            
+            #sectionSensors {
+                display: block !important;
             }
         }
         
@@ -1460,71 +1229,6 @@
             .card-title i {
                 font-size: 20px;
             }
-        }
-        
-        /* PUMP VISUAL INDICATOR */
-        .pump-visual {
-            text-align: center;
-            margin: 10px 0 20px;
-        }
-        
-        .pump-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        
-        .pump-circle.on {
-            background: linear-gradient(135deg, var(--pump-on), #27ae60);
-            box-shadow: 0 15px 40px rgba(46, 204, 113, 0.4);
-            animation: pulse-on 2s infinite;
-        }
-        
-        .pump-circle.off {
-            background: linear-gradient(135deg, var(--pump-off), #c0392b);
-            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.3);
-        }
-        
-        .pump-circle.fault {
-            background: linear-gradient(135deg, var(--pump-fault), #e67e22);
-            box-shadow: 0 15px 40px rgba(243, 156, 18, 0.4);
-            animation: pulse-fault 1.5s infinite;
-        }
-        
-        @keyframes pulse-on {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        @keyframes pulse-fault {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-        
-        .pump-circle i {
-            font-size: 36px;
-            color: white;
-            margin-bottom: 8px;
-        }
-        
-        .pump-circle .status-text {
-            font-size: 14px;
-            font-weight: 700;
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-        
-        .pump-circle .status-subtext {
-            font-size: 10px;
-            color: rgba(255,255,255,0.9);
-            margin-top: 3px;
         }
         
         /* Stats Grid */
@@ -1821,24 +1525,16 @@
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             color: var(--text-color);
-            position: relative;
-            overflow: hidden;
         }
         
         .control-bubble:active {
-            transform: scale(0.95);
-            animation: clickEffect 0.3s;
-        }
-        
-        @keyframes clickEffect {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.92); }
-            100% { transform: scale(0.95); }
+            transform: scale(0.92);
+            transition: transform 0.1s;
         }
         
         @media (hover: hover) {
             .control-bubble:hover {
-                transform: scale(1.05);
+                transform: scale(1.08);
             }
         }
         
@@ -1914,10 +1610,6 @@
             margin-bottom: 10px;
         }
         
-        .slider-custom:active {
-            animation: clickEffect 0.3s;
-        }
-        
         .slider-custom::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 24px;
@@ -1927,11 +1619,6 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.3);
             cursor: pointer;
             border: 2px solid var(--primary-color);
-            transition: all 0.2s;
-        }
-        
-        .slider-custom::-webkit-slider-thumb:active {
-            transform: scale(1.2);
         }
         
         @media (min-width: 768px) {
@@ -1986,8 +1673,8 @@
         }
         
         .preset-bubble:active {
-            transform: scale(0.95);
-            animation: clickEffect 0.3s;
+            transform: scale(0.92);
+            transition: transform 0.1s;
         }
         
         @media (hover: hover) {
@@ -2051,43 +1738,6 @@
             .preset-val {
                 font-size: 11px;
             }
-        }
-        
-        /* FAULT SECTION */
-        .fault-section {
-            background: #fff3e0;
-            border: 2px solid var(--warning-color);
-            border-radius: 16px;
-            padding: 15px;
-            margin-top: 10px;
-        }
-        
-        .fault-section.active {
-            animation: pulse-yellow 1s infinite;
-        }
-        
-        .fault-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: var(--warning-color);
-        }
-        
-        .fault-header i {
-            font-size: 20px;
-        }
-        
-        .fault-header h4 {
-            font-size: 14px;
-            font-weight: 700;
-        }
-        
-        .fault-details {
-            font-size: 12px;
-            color: var(--text-color);
-            margin-bottom: 12px;
-            line-height: 1.4;
         }
         
         /* ═══════════════════════════════════════════════════════════════
@@ -2181,13 +1831,10 @@
             transition: all 0.3s;
             -webkit-tap-highlight-color: transparent;
             flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
         }
         
         .back-bubble:active {
             transform: scale(0.9);
-            animation: clickEffect 0.3s;
         }
         
         @media (hover: hover) {
@@ -2364,13 +2011,10 @@
             transition: all 0.3s;
             margin-top: 15px;
             -webkit-tap-highlight-color: transparent;
-            position: relative;
-            overflow: hidden;
         }
         
         .save-bubble:active {
             transform: scale(0.98);
-            animation: clickEffect 0.3s;
         }
         
         @media (hover: hover) {
@@ -2558,20 +2202,6 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="loader-circle"></div>
-        <div class="loader-text">Loading FarmAI Pro...</div>
-    </div>
-
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Parallax Floating Elements -->
-    <div class="floating-element float-1">🌱</div>
-    <div class="floating-element float-2">💧</div>
-    <div class="floating-element float-3">🌾</div>
-    
     <!-- ═══════════════════════════════════════════════════════════════
                             PAGE 1: LANDING
     ═══════════════════════════════════════════════════════════════ -->
@@ -2626,12 +2256,12 @@
                         Save water, increase yield, and farm smarter.
                     </p>
                     
-                    <div class="enter-bubble ripple" onclick="enterDashboard()">
+                    <div class="enter-bubble" onclick="enterDashboard()">
                         <i class="fas fa-seedling"></i>
                         <span>START</span>
                     </div>
                     
-                    <p class="admin-access ripple" onclick="openAdmin()">
+                    <p class="admin-access" onclick="openAdmin()">
                         🔐 Administrator Access
                     </p>
                 </div>
@@ -2667,7 +2297,7 @@
                 
                 <div class="top-actions">
                     <!-- PUMP STATUS INDICATOR -->
-                    <div class="pump-status-container ripple" id="pumpStatus" onclick="togglePumpFaultDemo()">
+                    <div class="pump-status-container" id="pumpStatus" onclick="togglePumpFaultDemo()">
                         <div class="pump-status-dot"></div>
                         <span id="pumpStatusText">PUMP OFF</span>
                     </div>
@@ -2677,7 +2307,7 @@
                         <span id="connText">ESP32 Connected</span>
                     </div>
                     
-                    <div class="action-bubble admin ripple" onclick="openAdmin()">
+                    <div class="action-bubble admin" onclick="openAdmin()">
                         <i class="fas fa-user-shield"></i>
                     </div>
                 </div>
@@ -2687,49 +2317,34 @@
                 <!-- मोबाइल के लिए SECTION 1: STATS -->
                 <div class="mobile-section active" id="sectionStats">
                     <div class="dash-col">
-                        <!-- PUMP VISUAL INDICATOR -->
-                        <div class="farm-card">
-                            <h3 class="card-title">
-                                <i class="fas fa-power-off"></i>
-                                Pump Status
-                            </h3>
-                            <div class="pump-visual">
-                                <div class="pump-circle off" id="pumpCircle">
-                                    <i class="fas fa-power-off"></i>
-                                    <div class="status-text" id="pumpCircleText">OFF</div>
-                                    <div class="status-subtext">Click to test fault</div>
-                                </div>
-                            </div>
-                        </div>
-                        
                         <div class="farm-card">
                             <h3 class="card-title">
                                 <i class="fas fa-chart-bar"></i>
                                 Farm Statistics
                             </h3>
                             <div class="stats-compact">
-                                <div class="stat-bubble ripple">
+                                <div class="stat-bubble">
                                     <div class="stat-icon-big">
                                         <i class="fas fa-tint"></i>
                                     </div>
                                     <div class="stat-value" id="totalWater">12.5</div>
                                     <div class="stat-label">Water (Liters)</div>
                                 </div>
-                                <div class="stat-bubble ripple">
+                                <div class="stat-bubble">
                                     <div class="stat-icon-big">
                                         <i class="fas fa-clock"></i>
                                     </div>
                                     <div class="stat-value" id="uptime">00:00</div>
                                     <div class="stat-label">Uptime</div>
                                 </div>
-                                <div class="stat-bubble ripple">
+                                <div class="stat-bubble">
                                     <div class="stat-icon-big">
                                         <i class="fas fa-leaf"></i>
                                     </div>
                                     <div class="stat-value">62%</div>
                                     <div class="stat-label">Efficiency</div>
                                 </div>
-                                <div class="stat-bubble ripple">
+                                <div class="stat-bubble">
                                     <div class="stat-icon-big">
                                         <i class="fas fa-seedling"></i>
                                     </div>
@@ -2760,22 +2375,22 @@
                                 Live Sensors
                             </h3>
                             <div class="sensors-compact">
-                                <div class="sensor-bubble ripple">
+                                <div class="sensor-bubble">
                                     <i class="fas fa-mountain sensor-icon"></i>
                                     <div class="sensor-val" id="soilVal">645</div>
                                     <div class="sensor-name">Soil Moisture</div>
                                 </div>
-                                <div class="sensor-bubble ripple">
+                                <div class="sensor-bubble">
                                     <i class="fas fa-thermometer-half sensor-icon"></i>
                                     <div class="sensor-val" id="tempVal">28.5°C</div>
                                     <div class="sensor-name">Temperature</div>
                                 </div>
-                                <div class="sensor-bubble ripple">
+                                <div class="sensor-bubble">
                                     <i class="fas fa-droplet sensor-icon"></i>
                                     <div class="sensor-val" id="humidVal">65%</div>
                                     <div class="sensor-name">Humidity</div>
                                 </div>
-                                <div class="sensor-bubble ripple">
+                                <div class="sensor-bubble">
                                     <i class="fas fa-water sensor-icon"></i>
                                     <div class="sensor-val" id="flowVal">5.2</div>
                                     <div class="sensor-name">Flow (L/min)</div>
@@ -2798,10 +2413,10 @@
                             <div class="control-section">
                                 <div class="control-title">Mode</div>
                                 <div class="bubble-row">
-                                    <div class="control-bubble active ripple" id="btnAuto">
+                                    <div class="control-bubble active" id="btnAuto">
                                         AUTO
                                     </div>
-                                    <div class="control-bubble ripple" id="btnManual">
+                                    <div class="control-bubble" id="btnManual">
                                         MANUAL
                                     </div>
                                 </div>
@@ -2811,25 +2426,19 @@
                             <div class="control-section">
                                 <div class="control-title">Pump Control</div>
                                 <div class="bubble-row">
-                                    <div class="control-bubble start ripple" id="btnStart">
+                                    <div class="control-bubble start" id="btnStart">
                                         <i class="fas fa-play"></i> START
                                     </div>
-                                    <div class="control-bubble stop ripple" id="btnStop">
+                                    <div class="control-bubble stop" id="btnStop">
                                         <i class="fas fa-stop"></i> STOP
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Fault Section -->
-                            <div class="fault-section" id="faultSection">
-                                <div class="fault-header">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <h4>Fault Control</h4>
-                                </div>
-                                <div class="fault-details" id="faultDetails">
-                                    No faults detected. System operating normally.
-                                </div>
-                                <div class="control-bubble reset ripple" id="btnReset" style="width: 100%;">
+                            <!-- Fault Reset -->
+                            <div class="control-section">
+                                <div class="control-title">Fault Control</div>
+                                <div class="control-bubble reset" id="btnReset" style="width: 100%;">
                                     <i class="fas fa-redo"></i> RESET FAULT
                                 </div>
                             </div>
@@ -2849,17 +2458,17 @@
                             <div class="control-section">
                                 <div class="control-title">Crop Presets</div>
                                 <div class="presets-bubbles">
-                                    <div class="preset-bubble ripple" id="presetWheat">
+                                    <div class="preset-bubble" id="presetWheat">
                                         <span class="preset-emoji">🌾</span>
                                         <div class="preset-name">Wheat</div>
                                         <div class="preset-val">650</div>
                                     </div>
-                                    <div class="preset-bubble ripple" id="presetRice">
+                                    <div class="preset-bubble" id="presetRice">
                                         <span class="preset-emoji">🌾</span>
                                         <div class="preset-name">Rice</div>
                                         <div class="preset-val">400</div>
                                     </div>
-                                    <div class="preset-bubble ripple" id="presetCotton">
+                                    <div class="preset-bubble" id="presetCotton">
                                         <span class="preset-emoji">🌱</span>
                                         <div class="preset-name">Cotton</div>
                                         <div class="preset-val">700</div>
@@ -2873,15 +2482,15 @@
             
             <!-- MOBILE NAVIGATION TABS -->
             <div class="mobile-tabs">
-                <div class="mobile-tab active ripple" onclick="showMobileSection('sectionStats')">
+                <div class="mobile-tab active" onclick="showMobileSection('sectionStats')">
                     <i class="fas fa-chart-bar"></i>
                     <span>STATS</span>
                 </div>
-                <div class="mobile-tab ripple" onclick="showMobileSection('sectionSensors')">
+                <div class="mobile-tab" onclick="showMobileSection('sectionSensors')">
                     <i class="fas fa-broadcast-tower"></i>
                     <span>SENSORS</span>
                 </div>
-                <div class="mobile-tab ripple" onclick="showMobileSection('sectionControls')">
+                <div class="mobile-tab" onclick="showMobileSection('sectionControls')">
                     <i class="fas fa-sliders-h"></i>
                     <span>CONTROLS</span>
                 </div>
@@ -2909,7 +2518,7 @@
                     <i class="fas fa-shield-alt"></i>
                     Administrator Panel
                 </div>
-                <div class="back-bubble ripple" onclick="exitAdmin()">
+                <div class="back-bubble" onclick="exitAdmin()">
                     <i class="fas fa-times"></i>
                 </div>
             </div>
@@ -2947,7 +2556,7 @@
                         </select>
                     </div>
                     
-                    <button class="save-bubble ripple" onclick="saveSettings()">
+                    <button class="save-bubble" onclick="saveSettings()">
                         <i class="fas fa-save"></i> SAVE CONFIGURATION
                     </button>
                 </div>
@@ -2982,120 +2591,9 @@
                 faultNotified: false,
                 currentMobileSection: 'sectionStats',
                 theme: 'light',
-                notificationId: 0,
-                audioContext: null
+                notificationId: 0
             }
         };
-        
-        // ========== LOADING ANIMATION ==========
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 2000);
-        });
-        
-        // ========== CREATE PARTICLES ==========
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = Math.random() * 8 + 4 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = Math.random() * 10 + 15 + 's';
-                container.appendChild(particle);
-            }
-        }
-        
-        // ========== PARALLAX EFFECT ==========
-        function initParallax() {
-            document.addEventListener('mousemove', (e) => {
-                const floatingElements = document.querySelectorAll('.floating-element');
-                const x = (e.clientX / window.innerWidth - 0.5) * 2;
-                const y = (e.clientY / window.innerHeight - 0.5) * 2;
-                
-                floatingElements.forEach((el, index) => {
-                    const speed = (index + 1) * 20;
-                    el.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-                });
-            });
-        }
-        
-        // ========== 3D CARD TILT ==========
-        function init3DCards() {
-            document.querySelectorAll('.feature-box').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = (y - centerY) / 10;
-                    const rotateY = (centerX - x) / 10;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-                });
-            });
-        }
-        
-        // ========== RIPPLE EFFECT ==========
-        function initRippleEffect() {
-            document.querySelectorAll('.ripple').forEach(element => {
-                element.addEventListener('click', function(e) {
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    ripple.className = 'ripple-effect';
-                    ripple.style.left = `${e.clientX - rect.left}px`;
-                    ripple.style.top = `${e.clientY - rect.top}px`;
-                    this.appendChild(ripple);
-                    setTimeout(() => ripple.remove(), 600);
-                });
-            });
-        }
-        
-        // Audio context for button sounds
-        function initAudio() {
-            try {
-                window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                APP.state.audioContext = new AudioContext();
-            } catch (e) {
-                console.log('Web Audio API not supported');
-            }
-        }
-        
-        // Play button click sound
-        function playClickSound(type = 'normal') {
-            if (!APP.state.audioContext) return;
-            
-            const audioCtx = APP.state.audioContext;
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            
-            if (type === 'normal') {
-                oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
-            } else if (type === 'start') {
-                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime);
-            } else if (type === 'stop') {
-                oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
-            } else if (type === 'reset') {
-                oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
-            }
-            
-            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.1);
-        }
         
         // Theme Management
         function initTheme() {
@@ -3123,7 +2621,6 @@
         }
         
         function toggleTheme() {
-            playClickSound('normal');
             APP.state.theme = APP.state.theme === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', APP.state.theme);
             localStorage.setItem('farmAITheme', APP.state.theme);
@@ -3222,7 +2719,6 @@
         
         // Save config to localStorage
         function saveSettings() {
-            playClickSound('normal');
             APP.config.espIP = document.getElementById('espIP').value;
             APP.config.updateInterval = parseInt(document.getElementById('updateInterval').value);
             APP.config.farmName = document.getElementById('farmName').value;
@@ -3244,7 +2740,6 @@
         
         // Page Navigation
         function enterDashboard() {
-            playClickSound('start');
             document.getElementById('landingPage').classList.remove('active');
             document.getElementById('dashboardPage').classList.add('active');
             initDashboard();
@@ -3258,7 +2753,6 @@
         }
         
         function openAdmin() {
-            playClickSound('normal');
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('adminPage').classList.add('active');
             
@@ -3276,14 +2770,33 @@
         }
         
         function exitAdmin() {
-            playClickSound('normal');
             document.getElementById('adminPage').classList.remove('active');
             document.getElementById('dashboardPage').classList.add('active');
         }
         
         // MOBILE SECTION NAVIGATION
         function showMobileSection(sectionId) {
-            playClickSound('normal');
+            // मोबाइल पर सेंसर और कंट्रोल्स एक साथ दिखाएं
+            if (window.innerWidth <= 767) {
+                if (sectionId === 'sectionSensors' || sectionId === 'sectionControls') {
+                    document.querySelectorAll('.mobile-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    document.getElementById('sectionSensors').classList.add('active');
+                    document.getElementById('sectionControls').classList.add('active');
+                    
+                    document.querySelectorAll('.mobile-tab').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    
+                    document.querySelector('.mobile-tab:nth-child(2)').classList.add('active');
+                    document.querySelector('.mobile-tab:nth-child(3)').classList.add('active');
+                    
+                    APP.state.currentMobileSection = 'sectionSensors';
+                    return;
+                }
+            }
             
             document.querySelectorAll('.mobile-section').forEach(section => {
                 section.classList.remove('active');
@@ -3314,7 +2827,7 @@
             setInterval(updateUptime, 1000);
             setInterval(updateChart, 5000);
             
-            // Auto notifications
+            // Auto notifications - REDUCED FREQUENCY
             if (window.innerWidth <= 767) {
                 setInterval(() => {
                     if (Math.random() > 0.85 && APP.state.connected) {
@@ -3389,75 +2902,17 @@
             APP.state.chart.update();
         }
         
-        // PUMP VISUAL UPDATE
-        function updatePumpVisual() {
-            const pumpCircle = document.getElementById('pumpCircle');
-            const pumpCircleText = document.getElementById('pumpCircleText');
-            const pumpStatusEl = document.getElementById('pumpStatus');
-            const pumpTextEl = document.getElementById('pumpStatusText');
-            const faultSection = document.getElementById('faultSection');
-            const faultDetails = document.getElementById('faultDetails');
-            
-            if (APP.state.pumpFault) {
-                // FAULT MODE
-                pumpCircle.className = 'pump-circle fault';
-                pumpCircleText.textContent = 'FAULT';
-                pumpCircle.innerHTML = `
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div class="status-text">FAULT</div>
-                    <div class="status-subtext">Click to reset</div>
-                `;
-                
-                pumpStatusEl.classList.add('pump-fault');
-                pumpStatusEl.classList.remove('pump-off');
-                pumpTextEl.textContent = 'PUMP FAULT';
-                
-                faultSection.classList.add('active');
-                faultDetails.textContent = 'Pump motor overload detected. Check wiring and power supply.';
-                
-            } else if (APP.state.pumpStatus === 'ON') {
-                // ON MODE
-                pumpCircle.className = 'pump-circle on';
-                pumpCircleText.textContent = 'ON';
-                pumpCircle.innerHTML = `
-                    <i class="fas fa-power-off"></i>
-                    <div class="status-text">ON</div>
-                    <div class="status-subtext">Running</div>
-                `;
-                
-                pumpStatusEl.classList.remove('pump-off', 'pump-fault');
-                pumpTextEl.textContent = 'PUMP ON';
-                
-                faultSection.classList.remove('active');
-                faultDetails.textContent = 'No faults detected. System operating normally.';
-                
-            } else {
-                // OFF MODE
-                pumpCircle.className = 'pump-circle off';
-                pumpCircleText.textContent = 'OFF';
-                pumpCircle.innerHTML = `
-                    <i class="fas fa-power-off"></i>
-                    <div class="status-text">OFF</div>
-                    <div class="status-subtext">Stopped</div>
-                `;
-                
-                pumpStatusEl.classList.add('pump-off');
-                pumpStatusEl.classList.remove('pump-fault');
-                pumpTextEl.textContent = 'PUMP OFF';
-                
-                faultSection.classList.remove('active');
-                faultDetails.textContent = 'No faults detected. System operating normally.';
-            }
-        }
-        
         // PUMP STATUS UPDATE FUNCTIONS
         function updatePumpFaultStatus(isFault) {
             APP.state.pumpFault = isFault;
+            const pumpStatusEl = document.getElementById('pumpStatus');
             
             if (isFault) {
+                pumpStatusEl.classList.add('pump-fault');
+                pumpStatusEl.classList.remove('pump-off');
+                
                 // फॉल्ट नोटिफिकेशन (सिर्फ एक बार)
                 if (!APP.state.faultNotified) {
-                    playClickSound('stop');
                     showFloatingNotification(
                         '⚠️ PUMP FAULT DETECTED',
                         'Pump has encountered an error. Please check and reset.',
@@ -3467,26 +2922,45 @@
                     APP.state.faultNotified = true;
                 }
             } else {
+                pumpStatusEl.classList.remove('pump-fault');
                 APP.state.faultNotified = false;
+                // सामान्य स्टेटस दिखाएं
+                updatePumpStatus(APP.state.lastPumpState);
             }
-            
-            updatePumpVisual();
         }
         
         function updatePumpStatus(status) {
-            // अगर फॉल्ट है तो कुछ न करें (सिर्फ reset से clear होगा)
+            // अगर फॉल्ट है तो कुछ न करें
             if (APP.state.pumpFault) return;
             
             APP.state.lastPumpState = status;
             APP.state.pumpStatus = status;
+            const pumpStatusEl = document.getElementById('pumpStatus');
+            const pumpTextEl = document.getElementById('pumpStatusText');
             
             if (status === 'ON') {
-                playClickSound('start');
+                pumpStatusEl.classList.remove('pump-off');
+                pumpTextEl.textContent = 'PUMP ON';
+                pumpStatusEl.title = 'Pump is currently running';
+                
+                // पंप चलने का एनिमेशन
+                const dot = pumpStatusEl.querySelector('.pump-status-dot');
+                if (dot) {
+                    dot.style.animation = 'pulse 1s infinite';
+                    dot.style.background = 'var(--primary-color)';
+                }
             } else {
-                playClickSound('stop');
+                pumpStatusEl.classList.add('pump-off');
+                pumpTextEl.textContent = 'PUMP OFF';
+                pumpStatusEl.title = 'Pump is currently stopped';
+                
+                // पंप बंद का एनिमेशन
+                const dot = pumpStatusEl.querySelector('.pump-status-dot');
+                if (dot) {
+                    dot.style.animation = 'none';
+                    dot.style.background = 'var(--danger-color)';
+                }
             }
-            
-            updatePumpVisual();
         }
         
         // Data Fetching
@@ -3560,7 +3034,7 @@
                     updatePumpFaultStatus(true);
                     demoData.fault = true;
                     
-                    // ऑटो रीसेट (10 सेकंड बाद)
+                    // ऑटो रीसेट (5 सेकंड बाद)
                     setTimeout(() => {
                         if (APP.state.pumpFault) {
                             updatePumpFaultStatus(false);
@@ -3572,7 +3046,7 @@
                                 3000
                             );
                         }
-                    }, 10000);
+                    }, 5000);
                 }
             }, 30000);
             
@@ -3589,7 +3063,7 @@
                         4000
                     );
                 }
-            }, 20000);
+            }, 30000);
             
             // सेन्सर डेटा अपडेट
             setInterval(() => {
@@ -3684,7 +3158,6 @@
         // Touch-friendly event handlers
         function setupTouchEvents() {
             document.getElementById('btnAuto').addEventListener('click', function() {
-                playClickSound('normal');
                 this.classList.add('active');
                 document.getElementById('btnManual').classList.remove('active');
                 sendCommand('mode', 'mode=AUTO');
@@ -3697,7 +3170,6 @@
             });
             
             document.getElementById('btnManual').addEventListener('click', function() {
-                playClickSound('normal');
                 this.classList.add('active');
                 document.getElementById('btnAuto').classList.remove('active');
                 sendCommand('mode', 'mode=MANUAL');
@@ -3710,7 +3182,6 @@
             });
             
             document.getElementById('btnStart').addEventListener('click', () => {
-                playClickSound('start');
                 sendCommand('pump', 'state=ON');
                 updatePumpStatus('ON');
                 showFloatingNotification(
@@ -3722,7 +3193,6 @@
             });
             
             document.getElementById('btnStop').addEventListener('click', () => {
-                playClickSound('stop');
                 sendCommand('pump', 'state=OFF');
                 updatePumpStatus('OFF');
                 showFloatingNotification(
@@ -3734,7 +3204,6 @@
             });
             
             document.getElementById('btnReset').addEventListener('click', () => {
-                playClickSound('reset');
                 if (confirm('Reset pump fault?')) {
                     sendCommand('reset', 'fault=1');
                     updatePumpFaultStatus(false);
@@ -3752,7 +3221,6 @@
             });
             
             document.getElementById('thresholdSlider').addEventListener('change', function(e) {
-                playClickSound('normal');
                 sendCommand('threshold', 'value=' + e.target.value);
                 showFloatingNotification(
                     '⚙️ Threshold Updated',
@@ -3763,7 +3231,6 @@
             });
             
             document.getElementById('presetWheat').addEventListener('click', () => {
-                playClickSound('normal');
                 document.getElementById('thresholdSlider').value = 650;
                 document.getElementById('thresholdDisp').textContent = '650';
                 document.getElementById('cropName').textContent = 'Wheat';
@@ -3777,7 +3244,6 @@
             });
             
             document.getElementById('presetRice').addEventListener('click', () => {
-                playClickSound('normal');
                 document.getElementById('thresholdSlider').value = 400;
                 document.getElementById('thresholdDisp').textContent = '400';
                 document.getElementById('cropName').textContent = 'Rice';
@@ -3791,7 +3257,6 @@
             });
             
             document.getElementById('presetCotton').addEventListener('click', () => {
-                playClickSound('normal');
                 document.getElementById('thresholdSlider').value = 700;
                 document.getElementById('thresholdDisp').textContent = '700';
                 document.getElementById('cropName').textContent = 'Cotton';
@@ -3817,32 +3282,20 @@
         
         // टेस्टिंग के लिए: पंप फॉल्ट टॉगल करें
         function togglePumpFaultDemo() {
-            playClickSound('normal');
-            if (APP.state.pumpFault) {
-                if (confirm('Reset pump fault?')) {
-                    updatePumpFaultStatus(false);
-                }
-            } else {
-                if (confirm('Simulate pump fault?')) {
-                    updatePumpFaultStatus(true);
-                }
+            if (confirm('Demo: Simulate pump fault?')) {
+                updatePumpFaultStatus(!APP.state.pumpFault);
             }
         }
         
         // Initialize
         function init() {
-            initAudio();
             loadConfig();
             initTheme();
             setupTouchEvents();
-            createParticles();
-            initParallax();
-            init3DCards();
-            initRippleEffect();
             
             updatePumpStatus('OFF');
             
-            console.log('🚜 FarmAI Pro Ready! (Dark/Light Mode + Notifications + Sound)');
+            console.log('🚜 FarmAI Pro Ready! (Dark/Light Mode + Notifications)');
             
             if ('ontouchstart' in window || navigator.maxTouchPoints) {
                 document.body.classList.add('touch-device');
@@ -3858,6 +3311,12 @@
                         section.classList.remove('active');
                     });
                     document.getElementById(APP.state.currentMobileSection).classList.add('active');
+                    
+                    // मोबाइल पर सेंसर और कंट्रोल्स एक साथ दिखाएं
+                    if (APP.state.currentMobileSection === 'sectionSensors' || APP.state.currentMobileSection === 'sectionControls') {
+                        document.getElementById('sectionSensors').classList.add('active');
+                        document.getElementById('sectionControls').classList.add('active');
+                    }
                 }
             });
             
