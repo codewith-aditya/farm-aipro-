@@ -1,0 +1,3877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FarmAI Pro | Smart Irrigation System</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <style>
+        /* ═══════════════════════════════════════════════════════════════
+                        FARM AI PRO - MOBILE RESPONSIVE CSS
+                       WITH DARK/LIGHT MODE + NOTIFICATIONS
+        ═══════════════════════════════════════════════════════════════ */
+        
+        /* ========== LOADING SCREEN ========== */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-circle {
+            width: 80px;
+            height: 80px;
+            border: 4px solid transparent;
+            border-top: 4px solid #2ecc71;
+            border-right: 4px solid #2ecc71;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #2ecc71;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ========== FLOATING PARTICLES ========== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #2ecc71;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========== PARALLAX FLOATING ELEMENTS ========== */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+            font-size: 100px;
+        }
+
+        .float-1 { top: 10%; left: 5%; animation: parallax-float 8s ease-in-out infinite; }
+        .float-2 { top: 60%; right: 10%; animation: parallax-float 10s ease-in-out infinite reverse; }
+        .float-3 { bottom: 20%; left: 15%; animation: parallax-float 12s ease-in-out infinite; }
+
+        @keyframes parallax-float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -30px) rotate(5deg); }
+            50% { transform: translate(-10px, 20px) rotate(-5deg); }
+            75% { transform: translate(15px, 10px) rotate(3deg); }
+        }
+
+        /* ========== GLASSMORPHISM CARDS ========== */
+        .feature-box {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Gradient Border */
+        .feature-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(135deg, #2ecc71, transparent, #2ecc71);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .feature-box:hover::before {
+            opacity: 1;
+        }
+
+        /* 3D Transform on Hover */
+        .feature-box:hover {
+            transform: translateY(-10px) rotateX(3deg) rotateY(-3deg);
+            box-shadow: 
+                0 20px 40px rgba(46, 204, 113, 0.3),
+                0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Glow Effect */
+        .feature-box::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+
+        .feature-box:hover::after {
+            opacity: 1;
+        }
+
+        /* ========== RIPPLE EFFECT ========== */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* ========== ANIMATED LOGO ========== */
+        .farm-logo {
+            animation: float-logo 3s ease-in-out infinite;
+        }
+
+        @keyframes float-logo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ========== SHIMMER TEXT ========== */
+        .farm-title {
+            background: linear-gradient(90deg, #fff, #2ecc71, #fff);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 200% 0; }
+            50% { background-position: -200% 0; }
+        }
+
+        /* ========== ENTER BUBBLE ANIMATION ========== */
+        .enter-bubble {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 15px 40px rgba(46, 204, 113, 0.3);
+            }
+            50% { 
+                box-shadow: 0 20px 50px rgba(46, 204, 113, 0.5);
+                transform: scale(1.02);
+            }
+        }
+
+        /* CSS Variables for Theme */
+        :root {
+            /* Light Theme */
+            --primary-color: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary-color: #3498db;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-color: #2c3e50;
+            --gray-color: #7f8c8d;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+            --background: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --hover-shadow: rgba(0, 0, 0, 0.15);
+            
+            /* Floating Notification */
+            --notification-bg: rgba(255, 255, 255, 0.95);
+            --notification-text: #2c3e50;
+            --notification-success: #2ecc71;
+            --notification-warning: #f39c12;
+            --notification-error: #e74c3c;
+            --notification-info: #3498db;
+            
+            /* Theme Toggle */
+            --toggle-bg: #f1f1f1;
+            --toggle-circle: #ffffff;
+            --toggle-sun: #f39c12;
+            --toggle-moon: #95a5a6;
+            
+            /* Pump Status Colors */
+            --pump-on: #2ecc71;
+            --pump-off: #e74c3c;
+            --pump-fault: #f39c12;
+        }
+        
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --primary-color: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary-color: #3498db;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-color: #ecf0f1;
+            --gray-color: #95a5a6;
+            --light-gray: #34495e;
+            --white: #2c3e50;
+            --background: #1a1a2e;
+            --card-bg: #16213e;
+            --text-color: #ecf0f1;
+            --text-light: #bdc3c7;
+            --border-color: #2c3e50;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --hover-shadow: rgba(0, 0, 0, 0.4);
+            
+            /* Floating Notification */
+            --notification-bg: rgba(44, 62, 80, 0.95);
+            --notification-text: #ecf0f1;
+            
+            /* Theme Toggle */
+            --toggle-bg: #34495e;
+            --toggle-circle: #2c3e50;
+            --toggle-sun: #f39c12;
+            --toggle-moon: #f1c40f;
+            
+            /* Pump Status Colors */
+            --pump-on: #27ae60;
+            --pump-off: #c0392b;
+            --pump-fault: #e67e22;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        html {
+            font-size: 16px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: var(--background);
+            color: var(--text-color);
+        }
+        
+        .page {
+            display: none;
+            width: 100vw;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+                                THEME TOGGLE
+        ═══════════════════════════════════════════════════════════════ */
+        
+        .theme-toggle-container {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .theme-toggle-container {
+                top: 20px;
+                right: 20px;
+                gap: 10px;
+            }
+        }
+        
+        .theme-toggle {
+            width: 60px;
+            height: 30px;
+            background: var(--toggle-bg);
+            border-radius: 50px;
+            padding: 5px;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+        
+        .theme-toggle-circle {
+            width: 20px;
+            height: 20px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 5px;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        [data-theme="dark"] .theme-toggle-circle {
+            transform: translateX(30px);
+        }
+        
+        .theme-toggle i {
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle .fa-sun {
+            color: var(--toggle-sun);
+        }
+        
+        .theme-toggle .fa-moon {
+            color: var(--toggle-moon);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+                            FLOATING NOTIFICATIONS
+        ═══════════════════════════════════════════════════════════════ */
+        
+        .floating-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            width: 90%;
+            max-width: 400px;
+            background: var(--notification-bg);
+            color: var(--notification-text);
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-color);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @media (max-width: 767px) {
+            .floating-notification {
+                bottom: 80px;
+                width: 95%;
+            }
+        }
+        
+        .floating-notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 18px;
+            color: white;
+        }
+        
+        .notification-icon.success {
+            background: var(--notification-success);
+        }
+        
+        .notification-icon.warning {
+            background: var(--notification-warning);
+        }
+        
+        .notification-icon.error {
+            background: var(--notification-error);
+        }
+        
+        .notification-icon.info {
+            background: var(--notification-info);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        
+        .notification-message {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        .notification-close {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        
+        .notification-close:active {
+            transform: scale(0.9);
+        }
+        
+        .notification-close i {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+                                LANDING PAGE
+        ═══════════════════════════════════════════════════════════════ */
+        
+        .landing {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (min-width: 1024px) {
+            .landing {
+                flex-direction: row;
+            }
+        }
+        
+        .landing-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 50vh;
+            z-index: 2;
+        }
+        
+        @media (min-width: 768px) {
+            .landing-left {
+                padding: 40px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .landing-left {
+                min-height: 100vh;
+                padding: 60px;
+            }
+        }
+        
+        .landing-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+            z-index: -1;
+        }
+        
+        .farm-logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .farm-logo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 25px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .farm-logo {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 30px;
+            }
+        }
+        
+        .farm-logo i {
+            font-size: 50px;
+            color: var(--primary-color);
+        }
+        
+        @media (min-width: 768px) {
+            .farm-logo i {
+                font-size: 60px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .farm-logo i {
+                font-size: 80px;
+            }
+        }
+        
+        .farm-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .farm-title {
+                font-size: 48px;
+                margin-bottom: 12px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .farm-title {
+                font-size: 56px;
+                margin-bottom: 15px;
+            }
+        }
+        
+        .farm-subtitle {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .farm-subtitle {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .farm-subtitle {
+                font-size: 22px;
+                margin-bottom: 40px;
+            }
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        @media (min-width: 480px) {
+            .features {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .features {
+                gap: 20px;
+                margin-top: 25px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .features {
+                margin-top: 30px;
+            }
+        }
+        
+        .feature-box {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: transform 0.3s;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        @media (min-width: 768px) {
+            .feature-box {
+                padding: 20px;
+                border-radius: 15px;
+            }
+        }
+        
+        .feature-box i {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .feature-box i {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .feature-box i {
+                font-size: 32px;
+            }
+        }
+        
+        .feature-box h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        @media (min-width: 768px) {
+            .feature-box h4 {
+                font-size: 15px;
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .feature-box h4 {
+                font-size: 16px;
+            }
+        }
+        
+        .feature-box p {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        @media (min-width: 768px) {
+            .feature-box p {
+                font-size: 13px;
+            }
+        }
+        
+        .landing-right {
+            flex: 1;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            min-height: 50vh;
+            z-index: 2;
+        }
+        
+        @media (min-width: 768px) {
+            .landing-right {
+                padding: 50px 40px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .landing-right {
+                min-height: 100vh;
+                padding: 60px;
+            }
+        }
+        
+        .welcome-box {
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .welcome-title {
+            font-size: 32px;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .welcome-title {
+                font-size: 38px;
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .welcome-title {
+                font-size: 42px;
+            }
+        }
+        
+        .welcome-text {
+            font-size: 14px;
+            color: var(--gray-color);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        @media (min-width: 768px) {
+            .welcome-text {
+                font-size: 15px;
+                margin-bottom: 35px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .welcome-text {
+                font-size: 16px;
+                margin-bottom: 40px;
+            }
+        }
+        
+        .enter-bubble {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s;
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .enter-bubble {
+                width: 160px;
+                height: 160px;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .enter-bubble {
+                width: 180px;
+                height: 180px;
+            }
+        }
+        
+        .enter-bubble:active {
+            transform: scale(0.95);
+        }
+        
+        @media (hover: hover) {
+            .enter-bubble:hover {
+                transform: scale(1.1) translateY(-10px);
+                box-shadow: 0 30px 80px rgba(46, 204, 113, 0.6);
+            }
+            
+            .enter-bubble:active {
+                transform: scale(0.95);
+            }
+        }
+        
+        .enter-bubble i {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .enter-bubble i {
+                font-size: 42px;
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .enter-bubble i {
+                font-size: 48px;
+            }
+        }
+        
+        .enter-bubble span {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        @media (min-width: 768px) {
+            .enter-bubble span {
+                font-size: 17px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .enter-bubble span {
+                font-size: 18px;
+            }
+        }
+        
+        .admin-access {
+            font-size: 12px;
+            color: var(--gray-color);
+            cursor: pointer;
+            margin-top: 15px;
+            -webkit-tap-highlight-color: transparent;
+            padding: 8px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .admin-access:active {
+            background: rgba(46, 204, 113, 0.1);
+        }
+        
+        @media (hover: hover) {
+            .admin-access:hover {
+                color: var(--primary-color);
+                background: rgba(46, 204, 113, 0.1);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .admin-access {
+                font-size: 13px;
+                margin-top: 20px;
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+                            DASHBOARD - MOBILE RESPONSIVE
+        ═══════════════════════════════════════════════════════════════ */
+        
+        .dashboard {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #764ba2 100%);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            height: 70px;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        @media (min-width: 768px) {
+            .top-bar {
+                height: 80px;
+                padding: 0 25px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .top-bar {
+                padding: 0 30px;
+            }
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        @media (min-width: 768px) {
+            .logo-section {
+                gap: 15px;
+            }
+        }
+        
+        .mini-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .mini-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+        
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-color);
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .brand-name {
+                font-size: 22px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .brand-name {
+                font-size: 24px;
+            }
+        }
+        
+        .brand-tagline {
+            font-size: 10px;
+            color: var(--gray-color);
+        }
+        
+        @media (min-width: 768px) {
+            .brand-tagline {
+                font-size: 11px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .brand-tagline {
+                font-size: 12px;
+            }
+        }
+        
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .top-actions {
+                gap: 15px;
+            }
+        }
+        
+        /* PUMP STATUS INDICATOR */
+        .pump-status-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #e8f5e9;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        @media (min-width: 768px) {
+            .pump-status-container {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+        
+        .pump-status-container.pump-off {
+            background: #ffebee;
+            color: var(--danger-color);
+        }
+        
+        .pump-status-container.pump-fault {
+            background: #fff3e0 !important;
+            color: var(--warning-color) !important;
+            animation: pulse-yellow 1s infinite !important;
+        }
+        
+        @keyframes pulse-yellow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .pump-status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            flex-shrink: 0;
+        }
+        
+        .pump-off .pump-status-dot {
+            background: var(--danger-color);
+            animation: none;
+        }
+        
+        .pump-fault .pump-status-dot {
+            background: var(--warning-color);
+            animation: pulse-yellow 1s infinite;
+        }
+        
+        .connection-bubble {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #e8f5e9;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+        
+        @media (min-width: 768px) {
+            .connection-bubble {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .connection-bubble {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        .connection-bubble.offline {
+            background: #ffebee;
+            color: var(--danger-color);
+        }
+        
+        .conn-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            flex-shrink: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .conn-dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        .action-bubble {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            border: 2px solid transparent;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-bubble:active {
+            transform: scale(0.9);
+        }
+        
+        @media (min-width: 768px) {
+            .action-bubble {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .action-bubble {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+        
+        @media (hover: hover) {
+            .action-bubble:hover {
+                transform: scale(1.15);
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            }
+            
+            .action-bubble:active {
+                transform: scale(0.9);
+            }
+        }
+        
+        .action-bubble.admin {
+            background: linear-gradient(135deg, var(--danger-color), #c0392b);
+            color: white;
+        }
+        
+        .action-bubble.lang {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        @media (min-width: 768px) {
+            .action-bubble.lang {
+                font-size: 13px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .action-bubble.lang {
+                font-size: 14px;
+            }
+        }
+        
+        /* MOBILE NAVIGATION TABS */
+        .mobile-tabs {
+            display: none;
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            border-top: 2px solid var(--border-color);
+            z-index: 90;
+            padding: 10px 0;
+            box-shadow: 0 -5px 20px var(--shadow-color);
+        }
+        
+        @media (max-width: 767px) {
+            .mobile-tabs {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+        }
+        
+        .mobile-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            flex: 1;
+            text-align: center;
+            max-width: 100px;
+            color: var(--text-color);
+        }
+        
+        .mobile-tab.active {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .mobile-tab:active {
+            transform: scale(0.95);
+        }
+        
+        .mobile-tab i {
+            font-size: 20px;
+        }
+        
+        .mobile-tab span {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        /* Dashboard Grid - Mobile First */
+        .dash-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 15px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 80px;
+        }
+        
+        @media (min-width: 768px) {
+            .dash-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                padding: 20px;
+                padding-bottom: 20px;
+            }
+            
+            .mobile-tabs {
+                display: none !important;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .dash-grid {
+                grid-template-columns: 1fr 1fr 400px;
+            }
+        }
+        
+        @media (min-width: 1400px) {
+            .dash-grid {
+                grid-template-columns: 1fr 1fr 450px;
+            }
+        }
+        
+        .dash-col {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .dash-col {
+                gap: 20px;
+            }
+        }
+        
+        /* MOBILE SECTION VIEW */
+        .mobile-section {
+            display: none;
+        }
+        
+        @media (max-width: 767px) {
+            .mobile-section {
+                display: none;
+            }
+            
+            .mobile-section.active {
+                display: block;
+            }
+            
+            .dash-grid {
+                display: block;
+                padding-bottom: 80px;
+            }
+            
+            .dash-col {
+                margin-bottom: 15px;
+            }
+        }
+        
+        /* Cards */
+        .farm-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            transition: transform 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        
+        .farm-card:active {
+            transform: scale(0.99);
+        }
+        
+        @media (hover: hover) {
+            .farm-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 30px var(--hover-shadow);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .farm-card {
+                border-radius: 18px;
+                padding: 22px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .farm-card {
+                border-radius: 20px;
+                padding: 25px;
+            }
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .card-title {
+                font-size: 17px;
+                margin-bottom: 18px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .card-title {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+        }
+        
+        .card-title i {
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        @media (min-width: 768px) {
+            .card-title i {
+                font-size: 20px;
+            }
+        }
+        
+        /* PUMP VISUAL INDICATOR */
+        .pump-visual {
+            text-align: center;
+            margin: 10px 0 20px;
+        }
+        
+        .pump-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .pump-circle.on {
+            background: linear-gradient(135deg, var(--pump-on), #27ae60);
+            box-shadow: 0 15px 40px rgba(46, 204, 113, 0.4);
+            animation: pulse-on 2s infinite;
+        }
+        
+        .pump-circle.off {
+            background: linear-gradient(135deg, var(--pump-off), #c0392b);
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.3);
+        }
+        
+        .pump-circle.fault {
+            background: linear-gradient(135deg, var(--pump-fault), #e67e22);
+            box-shadow: 0 15px 40px rgba(243, 156, 18, 0.4);
+            animation: pulse-fault 1.5s infinite;
+        }
+        
+        @keyframes pulse-on {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes pulse-fault {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        .pump-circle i {
+            font-size: 36px;
+            color: white;
+            margin-bottom: 8px;
+        }
+        
+        .pump-circle .status-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .pump-circle .status-subtext {
+            font-size: 10px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 3px;
+        }
+        
+        /* Stats Grid */
+        .stats-compact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        @media (min-width: 480px) {
+            .stats-compact {
+                gap: 15px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .stats-compact {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 350px) {
+            .stats-compact {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .stat-bubble {
+            text-align: center;
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: 16px;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .stat-bubble:active {
+            transform: scale(0.95);
+        }
+        
+        @media (hover: hover) {
+            .stat-bubble:hover {
+                border-color: var(--primary-color);
+                transform: translateY(-5px);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .stat-bubble {
+                padding: 18px;
+                border-radius: 18px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .stat-bubble {
+                padding: 20px;
+                border-radius: 20px;
+            }
+        }
+        
+        .stat-icon-big {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            color: white;
+            font-size: 22px;
+        }
+        
+        @media (min-width: 768px) {
+            .stat-icon-big {
+                width: 55px;
+                height: 55px;
+                font-size: 24px;
+                margin-bottom: 14px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .stat-icon-big {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+                margin-bottom: 15px;
+            }
+        }
+        
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        @media (min-width: 768px) {
+            .stat-value {
+                font-size: 28px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .stat-value {
+                font-size: 32px;
+            }
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+        
+        @media (min-width: 768px) {
+            .stat-label {
+                font-size: 12px;
+            }
+        }
+        
+        /* Sensors */
+        .sensors-compact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        @media (min-width: 480px) {
+            .sensors-compact {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 350px) {
+            .sensors-compact {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .sensor-bubble {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .sensor-bubble:active {
+            transform: scale(0.95);
+        }
+        
+        @media (hover: hover) {
+            .sensor-bubble:hover {
+                border-color: var(--primary-color);
+                transform: scale(1.05);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .sensor-bubble {
+                padding: 18px;
+                border-radius: 18px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .sensor-bubble {
+                padding: 20px;
+                border-radius: 20px;
+            }
+        }
+        
+        .sensor-icon {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .sensor-icon {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .sensor-icon {
+                font-size: 36px;
+            }
+        }
+        
+        .sensor-val {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        @media (min-width: 768px) {
+            .sensor-val {
+                font-size: 24px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .sensor-val {
+                font-size: 28px;
+            }
+        }
+        
+        .sensor-name {
+            font-size: 10px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+        
+        @media (min-width: 768px) {
+            .sensor-name {
+                font-size: 11px;
+            }
+        }
+        
+        /* Chart */
+        .chart-container {
+            height: 250px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 280px;
+            }
+        }
+        
+        /* Controls */
+        .control-section {
+            margin-bottom: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .control-section {
+                margin-bottom: 18px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .control-section {
+                margin-bottom: 20px;
+            }
+        }
+        
+        .control-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        @media (min-width: 768px) {
+            .control-title {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+        }
+        
+        .bubble-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .bubble-row {
+                gap: 12px;
+            }
+        }
+        
+        .control-bubble {
+            padding: 12px 10px;
+            border-radius: 16px;
+            border: 3px solid var(--border-color);
+            background: var(--white);
+            cursor: pointer;
+            font-weight: 700;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 14px;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            color: var(--text-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .control-bubble:active {
+            transform: scale(0.95);
+            animation: clickEffect 0.3s;
+        }
+        
+        @keyframes clickEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.92); }
+            100% { transform: scale(0.95); }
+        }
+        
+        @media (hover: hover) {
+            .control-bubble:hover {
+                transform: scale(1.05);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .control-bubble {
+                padding: 14px;
+                border-radius: 18px;
+                font-size: 15px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .control-bubble {
+                padding: 15px;
+                border-radius: 20px;
+            }
+        }
+        
+        .control-bubble.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        .control-bubble.start {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .control-bubble.stop {
+            background: linear-gradient(135deg, var(--danger-color), #c0392b);
+            color: white;
+            border-color: var(--danger-color);
+        }
+        
+        .control-bubble.reset {
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            color: white;
+            border-color: var(--warning-color);
+        }
+        
+        .threshold-big {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+        
+        @media (min-width: 768px) {
+            .threshold-big {
+                font-size: 42px;
+                margin-bottom: 14px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .threshold-big {
+                font-size: 48px;
+                margin-bottom: 15px;
+            }
+        }
+        
+        .slider-custom {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            outline: none;
+            -webkit-appearance: none;
+            margin-bottom: 10px;
+        }
+        
+        .slider-custom:active {
+            animation: clickEffect 0.3s;
+        }
+        
+        .slider-custom::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            border: 2px solid var(--primary-color);
+            transition: all 0.2s;
+        }
+        
+        .slider-custom::-webkit-slider-thumb:active {
+            transform: scale(1.2);
+        }
+        
+        @media (min-width: 768px) {
+            .slider-custom::-webkit-slider-thumb {
+                width: 26px;
+                height: 26px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .slider-custom::-webkit-slider-thumb {
+                width: 28px;
+                height: 28px;
+            }
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
+        @media (min-width: 768px) {
+            .slider-labels {
+                font-size: 11px;
+            }
+        }
+        
+        .presets-bubbles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .presets-bubbles {
+                gap: 10px;
+            }
+        }
+        
+        .preset-bubble {
+            padding: 12px 8px;
+            border-radius: 12px;
+            border: 3px solid var(--border-color);
+            background: var(--white);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .preset-bubble:active {
+            transform: scale(0.95);
+            animation: clickEffect 0.3s;
+        }
+        
+        @media (hover: hover) {
+            .preset-bubble:hover {
+                border-color: var(--primary-color);
+                transform: scale(1.1);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .preset-bubble {
+                padding: 14px 10px;
+                border-radius: 14px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .preset-bubble {
+                padding: 15px 10px;
+                border-radius: 15px;
+            }
+        }
+        
+        .preset-emoji {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        @media (min-width: 768px) {
+            .preset-emoji {
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .preset-emoji {
+                font-size: 32px;
+            }
+        }
+        
+        .preset-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        
+        @media (min-width: 768px) {
+            .preset-name {
+                font-size: 13px;
+            }
+        }
+        
+        .preset-val {
+            font-size: 10px;
+            color: var(--text-light);
+        }
+        
+        @media (min-width: 768px) {
+            .preset-val {
+                font-size: 11px;
+            }
+        }
+        
+        /* FAULT SECTION */
+        .fault-section {
+            background: #fff3e0;
+            border: 2px solid var(--warning-color);
+            border-radius: 16px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .fault-section.active {
+            animation: pulse-yellow 1s infinite;
+        }
+        
+        .fault-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--warning-color);
+        }
+        
+        .fault-header i {
+            font-size: 20px;
+        }
+        
+        .fault-header h4 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .fault-details {
+            font-size: 12px;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+                                ADMIN PANEL
+        ═══════════════════════════════════════════════════════════════ */
+        
+        .admin-panel {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .admin-top {
+            height: 70px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            border-bottom: 2px solid rgba(46, 204, 113, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        @media (min-width: 768px) {
+            .admin-top {
+                height: 80px;
+                padding: 0 25px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .admin-top {
+                padding: 0 30px;
+            }
+        }
+        
+        .admin-logo {
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .admin-logo {
+                font-size: 24px;
+                gap: 12px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .admin-logo {
+                font-size: 28px;
+                gap: 15px;
+            }
+        }
+        
+        .admin-logo i {
+            font-size: 24px;
+        }
+        
+        @media (min-width: 768px) {
+            .admin-logo i {
+                font-size: 28px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .admin-logo i {
+                font-size: 32px;
+            }
+        }
+        
+        .back-bubble {
+            width: 40px;
+            height: 40px;
+            background: var(--danger-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-bubble:active {
+            transform: scale(0.9);
+            animation: clickEffect 0.3s;
+        }
+        
+        @media (hover: hover) {
+            .back-bubble:hover {
+                transform: scale(1.15);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .back-bubble {
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .back-bubble {
+                width: 50px;
+                height: 50px;
+            }
+        }
+        
+        .admin-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        @media (min-width: 768px) {
+            .admin-content {
+                padding: 30px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .admin-content {
+                padding: 40px;
+            }
+        }
+        
+        .admin-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        @media (min-width: 768px) {
+            .admin-box {
+                padding: 30px;
+                border-radius: 22px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .admin-box {
+                padding: 40px;
+                border-radius: 25px;
+            }
+        }
+        
+        .admin-box h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        @media (min-width: 768px) {
+            .admin-box h2 {
+                font-size: 28px;
+                margin-bottom: 28px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .admin-box h2 {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+        }
+        
+        .form-row {
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .form-row {
+                margin-bottom: 22px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .form-row {
+                margin-bottom: 25px;
+            }
+        }
+        
+        .form-label {
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        @media (min-width: 768px) {
+            .form-label {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            -webkit-appearance: none;
+        }
+        
+        @media (min-width: 768px) {
+            .form-input {
+                padding: 14px 18px;
+                border-radius: 14px;
+                font-size: 15px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .form-input {
+                padding: 15px 20px;
+                border-radius: 15px;
+                font-size: 16px;
+            }
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        select.form-input {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+        
+        .save-bubble {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .save-bubble:active {
+            transform: scale(0.98);
+            animation: clickEffect 0.3s;
+        }
+        
+        @media (hover: hover) {
+            .save-bubble:hover {
+                transform: scale(1.05);
+                box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .save-bubble {
+                padding: 16px;
+                border-radius: 14px;
+                font-size: 17px;
+                margin-top: 18px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .save-bubble {
+                padding: 18px;
+                border-radius: 15px;
+                font-size: 18px;
+                margin-top: 20px;
+            }
+        }
+        
+        .info-text {
+            color: #95a5a6;
+            font-size: 11px;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        
+        @media (min-width: 768px) {
+            .info-text {
+                font-size: 12px;
+                margin-top: 10px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .info-text {
+                font-size: 13px;
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════
+                            RESPONSIVE UTILITIES
+        ═══════════════════════════════════════════════════════════════ */
+        
+        /* Touch-friendly button states */
+        @media (hover: none) {
+            .enter-bubble, .action-bubble, .control-bubble, 
+            .preset-bubble, .back-bubble, .save-bubble {
+                transition: transform 0.1s;
+            }
+            
+            .enter-bubble:active, .action-bubble:active, .control-bubble:active, 
+            .preset-bubble:active, .back-bubble:active, .save-bubble:active {
+                transform: scale(0.95);
+            }
+        }
+        
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .page {
+                min-height: -webkit-fill-available;
+            }
+            
+            .dashboard, .admin-panel, .landing {
+                min-height: -webkit-fill-available;
+            }
+        }
+        
+        /* Hide scrollbars but keep functionality */
+        .dash-grid::-webkit-scrollbar,
+        .admin-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .dash-grid::-webkit-scrollbar-track,
+        .admin-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .dash-grid::-webkit-scrollbar-thumb,
+        .admin-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        /* Orientation handling */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .landing-left, .landing-right {
+                min-height: 100vh;
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+            
+            .farm-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .farm-logo i {
+                font-size: 40px;
+            }
+            
+            .farm-title {
+                font-size: 32px;
+            }
+            
+            .features {
+                margin-top: 15px;
+                gap: 10px;
+            }
+            
+            .feature-box {
+                padding: 12px;
+            }
+            
+            .theme-toggle-container {
+                top: 10px;
+                right: 10px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 350px) {
+            html {
+                font-size: 14px;
+            }
+            
+            .landing-left, .landing-right {
+                padding: 20px 15px;
+            }
+            
+            .dash-grid {
+                padding: 12px;
+                gap: 12px;
+            }
+            
+            .farm-card {
+                padding: 15px;
+            }
+            
+            .top-actions {
+                gap: 5px;
+            }
+            
+            .connection-bubble,
+            .pump-status-container {
+                font-size: 10px;
+                padding: 6px 8px;
+            }
+            
+            .action-bubble {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+            
+            .theme-toggle-container {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .theme-toggle {
+                width: 50px;
+                height: 25px;
+            }
+            
+            [data-theme="dark"] .theme-toggle-circle {
+                transform: translateX(25px);
+            }
+        }
+        
+        /* High-DPI screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .farm-card, .stat-bubble, .sensor-bubble, .control-bubble, .preset-bubble {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+        <div class="loader-text">Loading FarmAI Pro...</div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Parallax Floating Elements -->
+    <div class="floating-element float-1">🌱</div>
+    <div class="floating-element float-2">💧</div>
+    <div class="floating-element float-3">🌾</div>
+    
+    <!-- ═══════════════════════════════════════════════════════════════
+                            PAGE 1: LANDING
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="page active" id="landingPage">
+        <!-- Theme Toggle -->
+        <div class="theme-toggle-container">
+            <div class="theme-toggle" id="themeToggle">
+                <div class="theme-toggle-circle">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon" style="display: none;"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="landing">
+            <div class="landing-left">
+                <div class="farm-logo">
+                    <i class="fas fa-tractor"></i>
+                </div>
+                <h1 class="farm-title">FarmAI Pro</h1>
+                <p class="farm-subtitle">Smart Irrigation System</p>
+                
+                <div class="features">
+                    <div class="feature-box">
+                        <i class="fas fa-brain"></i>
+                        <h4>AI Powered</h4>
+                        <p>Intelligent farming decisions</p>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-tint"></i>
+                        <h4>Auto Irrigation</h4>
+                        <p>Smart water management</p>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Real-time Data</h4>
+                        <p>Live sensor monitoring</p>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Eco Friendly</h4>
+                        <p>Save 60% water</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="landing-right">
+                <div class="welcome-box">
+                    <h2 class="welcome-title">Welcome Farmer!</h2>
+                    <p class="welcome-text">
+                        Monitor and control your farm irrigation system with advanced AI technology. 
+                        Save water, increase yield, and farm smarter.
+                    </p>
+                    
+                    <div class="enter-bubble ripple" onclick="enterDashboard()">
+                        <i class="fas fa-seedling"></i>
+                        <span>START</span>
+                    </div>
+                    
+                    <p class="admin-access ripple" onclick="openAdmin()">
+                        🔐 Administrator Access
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+                            PAGE 2: DASHBOARD
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="page" id="dashboardPage">
+        <!-- Theme Toggle -->
+        <div class="theme-toggle-container">
+            <div class="theme-toggle" id="themeToggleDashboard">
+                <div class="theme-toggle-circle">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon" style="display: none;"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard">
+            <div class="top-bar">
+                <div class="logo-section">
+                    <div class="mini-logo">
+                        <i class="fas fa-tractor"></i>
+                    </div>
+                    <div>
+                        <div class="brand-name">FarmAI Pro</div>
+                        <div class="brand-tagline">Smart Irrigation</div>
+                    </div>
+                </div>
+                
+                <div class="top-actions">
+                    <!-- PUMP STATUS INDICATOR -->
+                    <div class="pump-status-container ripple" id="pumpStatus" onclick="togglePumpFaultDemo()">
+                        <div class="pump-status-dot"></div>
+                        <span id="pumpStatusText">PUMP OFF</span>
+                    </div>
+                    
+                    <div class="connection-bubble" id="connectionStatus">
+                        <div class="conn-dot"></div>
+                        <span id="connText">ESP32 Connected</span>
+                    </div>
+                    
+                    <div class="action-bubble admin ripple" onclick="openAdmin()">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dash-grid">
+                <!-- मोबाइल के लिए SECTION 1: STATS -->
+                <div class="mobile-section active" id="sectionStats">
+                    <div class="dash-col">
+                        <!-- PUMP VISUAL INDICATOR -->
+                        <div class="farm-card">
+                            <h3 class="card-title">
+                                <i class="fas fa-power-off"></i>
+                                Pump Status
+                            </h3>
+                            <div class="pump-visual">
+                                <div class="pump-circle off" id="pumpCircle">
+                                    <i class="fas fa-power-off"></i>
+                                    <div class="status-text" id="pumpCircleText">OFF</div>
+                                    <div class="status-subtext">Click to test fault</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="farm-card">
+                            <h3 class="card-title">
+                                <i class="fas fa-chart-bar"></i>
+                                Farm Statistics
+                            </h3>
+                            <div class="stats-compact">
+                                <div class="stat-bubble ripple">
+                                    <div class="stat-icon-big">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <div class="stat-value" id="totalWater">12.5</div>
+                                    <div class="stat-label">Water (Liters)</div>
+                                </div>
+                                <div class="stat-bubble ripple">
+                                    <div class="stat-icon-big">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stat-value" id="uptime">00:00</div>
+                                    <div class="stat-label">Uptime</div>
+                                </div>
+                                <div class="stat-bubble ripple">
+                                    <div class="stat-icon-big">
+                                        <i class="fas fa-leaf"></i>
+                                    </div>
+                                    <div class="stat-value">62%</div>
+                                    <div class="stat-label">Efficiency</div>
+                                </div>
+                                <div class="stat-bubble ripple">
+                                    <div class="stat-icon-big">
+                                        <i class="fas fa-seedling"></i>
+                                    </div>
+                                    <div class="stat-value" id="cropName">Wheat</div>
+                                    <div class="stat-label">Crop Type</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="farm-card" style="flex: 1;">
+                            <h3 class="card-title">
+                                <i class="fas fa-chart-line"></i>
+                                Soil Moisture Trend
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="soilChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- मोबाइल के लिए SECTION 2: SENSORS -->
+                <div class="mobile-section" id="sectionSensors">
+                    <div class="dash-col">
+                        <div class="farm-card" style="flex: 1;">
+                            <h3 class="card-title">
+                                <i class="fas fa-broadcast-tower"></i>
+                                Live Sensors
+                            </h3>
+                            <div class="sensors-compact">
+                                <div class="sensor-bubble ripple">
+                                    <i class="fas fa-mountain sensor-icon"></i>
+                                    <div class="sensor-val" id="soilVal">645</div>
+                                    <div class="sensor-name">Soil Moisture</div>
+                                </div>
+                                <div class="sensor-bubble ripple">
+                                    <i class="fas fa-thermometer-half sensor-icon"></i>
+                                    <div class="sensor-val" id="tempVal">28.5°C</div>
+                                    <div class="sensor-name">Temperature</div>
+                                </div>
+                                <div class="sensor-bubble ripple">
+                                    <i class="fas fa-droplet sensor-icon"></i>
+                                    <div class="sensor-val" id="humidVal">65%</div>
+                                    <div class="sensor-name">Humidity</div>
+                                </div>
+                                <div class="sensor-bubble ripple">
+                                    <i class="fas fa-water sensor-icon"></i>
+                                    <div class="sensor-val" id="flowVal">5.2</div>
+                                    <div class="sensor-name">Flow (L/min)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- मोबाइल के लिए SECTION 3: CONTROLS -->
+                <div class="mobile-section" id="sectionControls">
+                    <div class="dash-col">
+                        <div class="farm-card">
+                            <h3 class="card-title">
+                                <i class="fas fa-sliders-h"></i>
+                                System Controls
+                            </h3>
+                            
+                            <!-- Mode -->
+                            <div class="control-section">
+                                <div class="control-title">Mode</div>
+                                <div class="bubble-row">
+                                    <div class="control-bubble active ripple" id="btnAuto">
+                                        AUTO
+                                    </div>
+                                    <div class="control-bubble ripple" id="btnManual">
+                                        MANUAL
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Pump -->
+                            <div class="control-section">
+                                <div class="control-title">Pump Control</div>
+                                <div class="bubble-row">
+                                    <div class="control-bubble start ripple" id="btnStart">
+                                        <i class="fas fa-play"></i> START
+                                    </div>
+                                    <div class="control-bubble stop ripple" id="btnStop">
+                                        <i class="fas fa-stop"></i> STOP
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Fault Section -->
+                            <div class="fault-section" id="faultSection">
+                                <div class="fault-header">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <h4>Fault Control</h4>
+                                </div>
+                                <div class="fault-details" id="faultDetails">
+                                    No faults detected. System operating normally.
+                                </div>
+                                <div class="control-bubble reset ripple" id="btnReset" style="width: 100%;">
+                                    <i class="fas fa-redo"></i> RESET FAULT
+                                </div>
+                            </div>
+                            
+                            <!-- Threshold -->
+                            <div class="control-section">
+                                <div class="control-title">Moisture Threshold</div>
+                                <div class="threshold-big" id="thresholdDisp">650</div>
+                                <input type="range" class="slider-custom" min="0" max="1023" value="650" id="thresholdSlider">
+                                <div class="slider-labels">
+                                    <span>Dry (1023)</span>
+                                    <span>Wet (0)</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Presets -->
+                            <div class="control-section">
+                                <div class="control-title">Crop Presets</div>
+                                <div class="presets-bubbles">
+                                    <div class="preset-bubble ripple" id="presetWheat">
+                                        <span class="preset-emoji">🌾</span>
+                                        <div class="preset-name">Wheat</div>
+                                        <div class="preset-val">650</div>
+                                    </div>
+                                    <div class="preset-bubble ripple" id="presetRice">
+                                        <span class="preset-emoji">🌾</span>
+                                        <div class="preset-name">Rice</div>
+                                        <div class="preset-val">400</div>
+                                    </div>
+                                    <div class="preset-bubble ripple" id="presetCotton">
+                                        <span class="preset-emoji">🌱</span>
+                                        <div class="preset-name">Cotton</div>
+                                        <div class="preset-val">700</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MOBILE NAVIGATION TABS -->
+            <div class="mobile-tabs">
+                <div class="mobile-tab active ripple" onclick="showMobileSection('sectionStats')">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>STATS</span>
+                </div>
+                <div class="mobile-tab ripple" onclick="showMobileSection('sectionSensors')">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <span>SENSORS</span>
+                </div>
+                <div class="mobile-tab ripple" onclick="showMobileSection('sectionControls')">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>CONTROLS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+                            PAGE 3: ADMIN PANEL
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="page" id="adminPage">
+        <!-- Theme Toggle -->
+        <div class="theme-toggle-container">
+            <div class="theme-toggle" id="themeToggleAdmin">
+                <div class="theme-toggle-circle">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon" style="display: none;"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-panel">
+            <div class="admin-top">
+                <div class="admin-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    Administrator Panel
+                </div>
+                <div class="back-bubble ripple" onclick="exitAdmin()">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            
+            <div class="admin-content">
+                <div class="admin-box">
+                    <h2>System Configuration</h2>
+                    
+                    <div class="form-row">
+                        <label class="form-label">ESP32 IP Address</label>
+                        <input type="text" class="form-input" id="espIP" placeholder="192.168.1.100">
+                        <p class="info-text">Enter your ESP32 local IP address</p>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label class="form-label">Update Interval (ms)</label>
+                        <input type="number" class="form-input" id="updateInterval" value="1000">
+                        <p class="info-text">Sensor data refresh rate (1000ms = 1 second)</p>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label class="form-label">Farm Name</label>
+                        <input type="text" class="form-input" id="farmName" value="Green Valley Farm">
+                        <p class="info-text">Your farm identification name</p>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label class="form-label">Default Crop Type</label>
+                        <select class="form-input" id="defaultCrop">
+                            <option value="Wheat">Wheat</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Cotton">Cotton</option>
+                            <option value="Corn">Corn</option>
+                            <option value="Vegetables">Vegetables</option>
+                        </select>
+                    </div>
+                    
+                    <button class="save-bubble ripple" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> SAVE CONFIGURATION
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        //                  FARM AI PRO - JAVASCRIPT
+        //            WITH DARK/LIGHT MODE + FLOATING NOTIFICATIONS
+        // ═══════════════════════════════════════════════════════════════
+        
+        const APP = {
+            config: {
+                espIP: '',
+                updateInterval: 1000,
+                farmName: 'Green Valley Farm',
+                defaultCrop: 'Wheat'
+            },
+            state: {
+                startTime: Date.now(),
+                chart: null,
+                language: 'en',
+                connected: false,
+                pumpStatus: 'OFF',
+                pumpFault: false,
+                lastPumpState: 'OFF',
+                faultNotified: false,
+                currentMobileSection: 'sectionStats',
+                theme: 'light',
+                notificationId: 0,
+                audioContext: null
+            }
+        };
+        
+        // ========== LOADING ANIMATION ==========
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+        
+        // ========== CREATE PARTICLES ==========
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 8 + 4 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = Math.random() * 10 + 15 + 's';
+                container.appendChild(particle);
+            }
+        }
+        
+        // ========== PARALLAX EFFECT ==========
+        function initParallax() {
+            document.addEventListener('mousemove', (e) => {
+                const floatingElements = document.querySelectorAll('.floating-element');
+                const x = (e.clientX / window.innerWidth - 0.5) * 2;
+                const y = (e.clientY / window.innerHeight - 0.5) * 2;
+                
+                floatingElements.forEach((el, index) => {
+                    const speed = (index + 1) * 20;
+                    el.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                });
+            });
+        }
+        
+        // ========== 3D CARD TILT ==========
+        function init3DCards() {
+            document.querySelectorAll('.feature-box').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+                });
+            });
+        }
+        
+        // ========== RIPPLE EFFECT ==========
+        function initRippleEffect() {
+            document.querySelectorAll('.ripple').forEach(element => {
+                element.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    ripple.className = 'ripple-effect';
+                    ripple.style.left = `${e.clientX - rect.left}px`;
+                    ripple.style.top = `${e.clientY - rect.top}px`;
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+        }
+        
+        // Audio context for button sounds
+        function initAudio() {
+            try {
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                APP.state.audioContext = new AudioContext();
+            } catch (e) {
+                console.log('Web Audio API not supported');
+            }
+        }
+        
+        // Play button click sound
+        function playClickSound(type = 'normal') {
+            if (!APP.state.audioContext) return;
+            
+            const audioCtx = APP.state.audioContext;
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            if (type === 'normal') {
+                oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+            } else if (type === 'start') {
+                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime);
+            } else if (type === 'stop') {
+                oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+            } else if (type === 'reset') {
+                oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+            }
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.1);
+        }
+        
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('farmAITheme');
+            if (savedTheme) {
+                APP.state.theme = savedTheme;
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                updateThemeToggleIcons();
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) {
+                    APP.state.theme = 'dark';
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    updateThemeToggleIcons();
+                }
+            }
+            
+            const themeToggles = ['themeToggle', 'themeToggleDashboard', 'themeToggleAdmin'];
+            themeToggles.forEach(id => {
+                const toggle = document.getElementById(id);
+                if (toggle) {
+                    toggle.addEventListener('click', toggleTheme);
+                }
+            });
+        }
+        
+        function toggleTheme() {
+            playClickSound('normal');
+            APP.state.theme = APP.state.theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', APP.state.theme);
+            localStorage.setItem('farmAITheme', APP.state.theme);
+            updateThemeToggleIcons();
+            
+            showFloatingNotification(
+                APP.state.theme === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode',
+                `Switched to ${APP.state.theme} theme`,
+                APP.state.theme === 'dark' ? 'info' : 'success',
+                3000
+            );
+        }
+        
+        function updateThemeToggleIcons() {
+            const sunIcons = document.querySelectorAll('.fa-sun');
+            const moonIcons = document.querySelectorAll('.fa-moon');
+            
+            if (APP.state.theme === 'dark') {
+                sunIcons.forEach(icon => icon.style.display = 'none');
+                moonIcons.forEach(icon => icon.style.display = 'block');
+            } else {
+                sunIcons.forEach(icon => icon.style.display = 'block');
+                moonIcons.forEach(icon => icon.style.display = 'none');
+            }
+        }
+        
+        // Floating Notification System
+        function showFloatingNotification(title, message, type = 'info', duration = 3000) {
+            APP.state.notificationId++;
+            const notificationId = `notification-${APP.state.notificationId}`;
+            
+            const currentNotifications = document.querySelectorAll('.floating-notification.show');
+            if (currentNotifications.length >= 2) {
+                return;
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = 'floating-notification';
+            notification.id = notificationId;
+            
+            const iconClass = {
+                'success': 'fas fa-check-circle',
+                'warning': 'fas fa-exclamation-triangle',
+                'error': 'fas fa-times-circle',
+                'info': 'fas fa-info-circle'
+            }[type] || 'fas fa-info-circle';
+            
+            notification.innerHTML = `
+                <div class="notification-icon ${type}">
+                    <i class="${iconClass}"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">${title}</div>
+                    <div class="notification-message">${message}</div>
+                </div>
+                <div class="notification-close" onclick="closeNotification('${notificationId}')">
+                    <i class="fas fa-times"></i>
+                </div>
+            `;
+            
+            document.getElementById('notificationContainer').appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            if (duration > 0) {
+                setTimeout(() => {
+                    closeNotification(notificationId);
+                }, duration);
+            }
+            
+            return notificationId;
+        }
+        
+        function closeNotification(notificationId) {
+            const notification = document.getElementById(notificationId);
+            if (notification) {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }
+        }
+        
+        // Load saved config from localStorage
+        function loadConfig() {
+            const saved = localStorage.getItem('farmAIConfig');
+            if (saved) {
+                APP.config = JSON.parse(saved);
+                document.getElementById('cropName').textContent = APP.config.defaultCrop;
+            }
+        }
+        
+        // Save config to localStorage
+        function saveSettings() {
+            playClickSound('normal');
+            APP.config.espIP = document.getElementById('espIP').value;
+            APP.config.updateInterval = parseInt(document.getElementById('updateInterval').value);
+            APP.config.farmName = document.getElementById('farmName').value;
+            APP.config.defaultCrop = document.getElementById('defaultCrop').value;
+            
+            localStorage.setItem('farmAIConfig', JSON.stringify(APP.config));
+            
+            showFloatingNotification(
+                '✅ Settings Saved',
+                `ESP32 IP: ${APP.config.espIP || 'Not set'}`,
+                'success',
+                3000
+            );
+            
+            setTimeout(() => {
+                exitAdmin();
+            }, 1500);
+        }
+        
+        // Page Navigation
+        function enterDashboard() {
+            playClickSound('start');
+            document.getElementById('landingPage').classList.remove('active');
+            document.getElementById('dashboardPage').classList.add('active');
+            initDashboard();
+            
+            showFloatingNotification(
+                '🚜 Welcome to Dashboard!',
+                'FarmAI Pro is now monitoring your irrigation system',
+                'success',
+                4000
+            );
+        }
+        
+        function openAdmin() {
+            playClickSound('normal');
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('adminPage').classList.add('active');
+            
+            document.getElementById('espIP').value = APP.config.espIP;
+            document.getElementById('updateInterval').value = APP.config.updateInterval;
+            document.getElementById('farmName').value = APP.config.farmName;
+            document.getElementById('defaultCrop').value = APP.config.defaultCrop;
+            
+            showFloatingNotification(
+                '🔧 Admin Panel',
+                'Configure your system settings here',
+                'info',
+                3000
+            );
+        }
+        
+        function exitAdmin() {
+            playClickSound('normal');
+            document.getElementById('adminPage').classList.remove('active');
+            document.getElementById('dashboardPage').classList.add('active');
+        }
+        
+        // MOBILE SECTION NAVIGATION
+        function showMobileSection(sectionId) {
+            playClickSound('normal');
+            
+            document.querySelectorAll('.mobile-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.mobile-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            if (sectionId === 'sectionStats') {
+                document.querySelector('.mobile-tab:nth-child(1)').classList.add('active');
+            } else if (sectionId === 'sectionSensors') {
+                document.querySelector('.mobile-tab:nth-child(2)').classList.add('active');
+            } else if (sectionId === 'sectionControls') {
+                document.querySelector('.mobile-tab:nth-child(3)').classList.add('active');
+            }
+            
+            APP.state.currentMobileSection = sectionId;
+        }
+        
+        // Dashboard Init
+        function initDashboard() {
+            initChart();
+            startDataFetch();
+            
+            setInterval(updateUptime, 1000);
+            setInterval(updateChart, 5000);
+            
+            // Auto notifications
+            if (window.innerWidth <= 767) {
+                setInterval(() => {
+                    if (Math.random() > 0.85 && APP.state.connected) {
+                        const notifications = [
+                            ['🌱 Soil Status', 'Soil moisture is optimal for growth', 'success'],
+                            ['🌡️ Temperature', 'Temperature within normal range', 'info'],
+                            ['💧 Water Flow', 'System operating efficiently', 'success'],
+                            ['⚡ System Alert', 'All systems functioning normally', 'info']
+                        ];
+                        const randomNote = notifications[Math.floor(Math.random() * notifications.length)];
+                        showFloatingNotification(...randomNote);
+                    }
+                }, 30000);
+            }
+        }
+        
+        // Chart
+        function initChart() {
+            const ctx = document.getElementById('soilChart').getContext('2d');
+            
+            APP.state.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Soil Moisture',
+                        data: [],
+                        borderColor: 'var(--primary-color)',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1023,
+                            grid: { color: 'rgba(0,0,0,0.05)' },
+                            ticks: { color: 'var(--text-light)' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: 'var(--text-light)' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateChart() {
+            if (!APP.state.chart) return;
+            
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            APP.state.chart.data.labels.push(time);
+            APP.state.chart.data.datasets[0].data.push(parseInt(document.getElementById('soilVal').textContent) || 645);
+            
+            if (APP.state.chart.data.labels.length > 20) {
+                APP.state.chart.data.labels.shift();
+                APP.state.chart.data.datasets[0].data.shift();
+            }
+            
+            APP.state.chart.update();
+        }
+        
+        // PUMP VISUAL UPDATE
+        function updatePumpVisual() {
+            const pumpCircle = document.getElementById('pumpCircle');
+            const pumpCircleText = document.getElementById('pumpCircleText');
+            const pumpStatusEl = document.getElementById('pumpStatus');
+            const pumpTextEl = document.getElementById('pumpStatusText');
+            const faultSection = document.getElementById('faultSection');
+            const faultDetails = document.getElementById('faultDetails');
+            
+            if (APP.state.pumpFault) {
+                // FAULT MODE
+                pumpCircle.className = 'pump-circle fault';
+                pumpCircleText.textContent = 'FAULT';
+                pumpCircle.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="status-text">FAULT</div>
+                    <div class="status-subtext">Click to reset</div>
+                `;
+                
+                pumpStatusEl.classList.add('pump-fault');
+                pumpStatusEl.classList.remove('pump-off');
+                pumpTextEl.textContent = 'PUMP FAULT';
+                
+                faultSection.classList.add('active');
+                faultDetails.textContent = 'Pump motor overload detected. Check wiring and power supply.';
+                
+            } else if (APP.state.pumpStatus === 'ON') {
+                // ON MODE
+                pumpCircle.className = 'pump-circle on';
+                pumpCircleText.textContent = 'ON';
+                pumpCircle.innerHTML = `
+                    <i class="fas fa-power-off"></i>
+                    <div class="status-text">ON</div>
+                    <div class="status-subtext">Running</div>
+                `;
+                
+                pumpStatusEl.classList.remove('pump-off', 'pump-fault');
+                pumpTextEl.textContent = 'PUMP ON';
+                
+                faultSection.classList.remove('active');
+                faultDetails.textContent = 'No faults detected. System operating normally.';
+                
+            } else {
+                // OFF MODE
+                pumpCircle.className = 'pump-circle off';
+                pumpCircleText.textContent = 'OFF';
+                pumpCircle.innerHTML = `
+                    <i class="fas fa-power-off"></i>
+                    <div class="status-text">OFF</div>
+                    <div class="status-subtext">Stopped</div>
+                `;
+                
+                pumpStatusEl.classList.add('pump-off');
+                pumpStatusEl.classList.remove('pump-fault');
+                pumpTextEl.textContent = 'PUMP OFF';
+                
+                faultSection.classList.remove('active');
+                faultDetails.textContent = 'No faults detected. System operating normally.';
+            }
+        }
+        
+        // PUMP STATUS UPDATE FUNCTIONS
+        function updatePumpFaultStatus(isFault) {
+            APP.state.pumpFault = isFault;
+            
+            if (isFault) {
+                // फॉल्ट नोटिफिकेशन (सिर्फ एक बार)
+                if (!APP.state.faultNotified) {
+                    playClickSound('stop');
+                    showFloatingNotification(
+                        '⚠️ PUMP FAULT DETECTED',
+                        'Pump has encountered an error. Please check and reset.',
+                        'error',
+                        5000
+                    );
+                    APP.state.faultNotified = true;
+                }
+            } else {
+                APP.state.faultNotified = false;
+            }
+            
+            updatePumpVisual();
+        }
+        
+        function updatePumpStatus(status) {
+            // अगर फॉल्ट है तो कुछ न करें (सिर्फ reset से clear होगा)
+            if (APP.state.pumpFault) return;
+            
+            APP.state.lastPumpState = status;
+            APP.state.pumpStatus = status;
+            
+            if (status === 'ON') {
+                playClickSound('start');
+            } else {
+                playClickSound('stop');
+            }
+            
+            updatePumpVisual();
+        }
+        
+        // Data Fetching
+        function startDataFetch() {
+            if (!APP.config.espIP) {
+                console.log('⚠️ No ESP32 IP configured - running in demo mode');
+                startDemoMode();
+                return;
+            }
+            
+            fetchRealData();
+            setInterval(fetchRealData, APP.config.updateInterval);
+        }
+        
+        async function fetchRealData() {
+            try {
+                const url = `http://${APP.config.espIP}/api/data`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                updateUI(data);
+                setConnected(true);
+                
+            } catch (error) {
+                console.error('Connection error:', error);
+                setConnected(false);
+            }
+        }
+        
+        function updateUI(data) {
+            document.getElementById('soilVal').textContent = data.soil;
+            document.getElementById('tempVal').textContent = data.temp.toFixed(1) + '°C';
+            document.getElementById('humidVal').textContent = data.humid.toFixed(1) + '%';
+            document.getElementById('flowVal').textContent = data.flow.toFixed(1);
+            document.getElementById('totalWater').textContent = data.water.toFixed(1);
+            
+            if (data.pumpStatus) {
+                updatePumpStatus(data.pumpStatus);
+            }
+            
+            if (data.mode === 'AUTO') {
+                document.getElementById('btnAuto').classList.add('active');
+                document.getElementById('btnManual').classList.remove('active');
+            } else {
+                document.getElementById('btnManual').classList.add('active');
+                document.getElementById('btnAuto').classList.remove('active');
+            }
+            
+            // Check for fault in data
+            if (data.fault === true || data.fault === 1) {
+                updatePumpFaultStatus(true);
+            }
+        }
+        
+        // Demo Mode
+        let demoData = { 
+            soil: 645, 
+            temp: 28.5, 
+            humid: 65, 
+            flow: 5.2, 
+            water: 12.5, 
+            mode: 'AUTO',
+            pumpStatus: 'OFF',
+            fault: false
+        };
+        
+        function startDemoMode() {
+            // फॉल्ट सिमुलेशन (कभी-कभी)
+            setInterval(() => {
+                if (Math.random() > 0.95 && !APP.state.pumpFault) {
+                    updatePumpFaultStatus(true);
+                    demoData.fault = true;
+                    
+                    // ऑटो रीसेट (10 सेकंड बाद)
+                    setTimeout(() => {
+                        if (APP.state.pumpFault) {
+                            updatePumpFaultStatus(false);
+                            demoData.fault = false;
+                            showFloatingNotification(
+                                '🔧 Fault Auto-Reset',
+                                'Pump fault has been automatically cleared',
+                                'info',
+                                3000
+                            );
+                        }
+                    }, 10000);
+                }
+            }, 30000);
+            
+            // पंप स्टेटस बदलना
+            setInterval(() => {
+                if (Math.random() > 0.85 && !APP.state.pumpFault) {
+                    demoData.pumpStatus = demoData.pumpStatus === 'ON' ? 'OFF' : 'ON';
+                    updatePumpStatus(demoData.pumpStatus);
+                    
+                    showFloatingNotification(
+                        '🔧 Pump Status',
+                        `Pump turned ${demoData.pumpStatus === 'ON' ? 'ON' : 'OFF'}`,
+                        demoData.pumpStatus === 'ON' ? 'success' : 'warning',
+                        4000
+                    );
+                }
+            }, 20000);
+            
+            // सेन्सर डेटा अपडेट
+            setInterval(() => {
+                demoData.soil += Math.random() * 10 - 5;
+                demoData.soil = Math.max(400, Math.min(800, demoData.soil));
+                
+                demoData.temp += Math.random() * 2 - 1;
+                demoData.temp = Math.max(20, Math.min(35, demoData.temp));
+                
+                demoData.humid += Math.random() * 3 - 1.5;
+                demoData.humid = Math.max(40, Math.min(80, demoData.humid));
+                
+                updateUI(demoData);
+                
+                if (Math.random() > 0.9) {
+                    if (demoData.soil > 750) {
+                        showFloatingNotification(
+                            '⚠️ Soil Alert',
+                            'Soil is getting dry. Consider irrigation.',
+                            'warning',
+                            4000
+                        );
+                    } else if (demoData.soil < 450) {
+                        showFloatingNotification(
+                            '⚠️ Soil Alert',
+                            'Soil is too wet. Stop irrigation.',
+                            'warning',
+                            4000
+                        );
+                    }
+                }
+            }, 5000);
+        }
+        
+        function setConnected(status) {
+            APP.state.connected = status;
+            const conn = document.getElementById('connectionStatus');
+            const text = document.getElementById('connText');
+            
+            if (status) {
+                conn.classList.remove('offline');
+                text.textContent = 'ESP32 Connected';
+                
+                showFloatingNotification(
+                    '📱 Device Connected',
+                    'ESP32 is now connected and sending data',
+                    'success',
+                    3000
+                );
+            } else {
+                conn.classList.add('offline');
+                text.textContent = 'Offline - Demo Mode';
+                
+                showFloatingNotification(
+                    '📴 Device Offline',
+                    'Running in demo mode. Connect ESP32 for real data.',
+                    'warning',
+                    4000
+                );
+            }
+        }
+        
+        // Controls
+        async function sendCommand(endpoint, params) {
+            if (!APP.config.espIP) {
+                console.log('Demo mode - command:', endpoint, params);
+                
+                if (endpoint === 'pump') {
+                    if (params.includes('state=ON')) {
+                        updatePumpStatus('ON');
+                        demoData.pumpStatus = 'ON';
+                    } else if (params.includes('state=OFF')) {
+                        updatePumpStatus('OFF');
+                        demoData.pumpStatus = 'OFF';
+                    }
+                } else if (endpoint === 'reset') {
+                    updatePumpFaultStatus(false);
+                    demoData.fault = false;
+                }
+                
+                return;
+            }
+            
+            try {
+                const url = `http://${APP.config.espIP}/api/${endpoint}?${params}`;
+                await fetch(url);
+            } catch (error) {
+                console.error('Command error:', error);
+            }
+        }
+        
+        // Touch-friendly event handlers
+        function setupTouchEvents() {
+            document.getElementById('btnAuto').addEventListener('click', function() {
+                playClickSound('normal');
+                this.classList.add('active');
+                document.getElementById('btnManual').classList.remove('active');
+                sendCommand('mode', 'mode=AUTO');
+                showFloatingNotification(
+                    '🔄 Mode Changed',
+                    'System switched to AUTO mode',
+                    'success',
+                    3000
+                );
+            });
+            
+            document.getElementById('btnManual').addEventListener('click', function() {
+                playClickSound('normal');
+                this.classList.add('active');
+                document.getElementById('btnAuto').classList.remove('active');
+                sendCommand('mode', 'mode=MANUAL');
+                showFloatingNotification(
+                    '🔄 Mode Changed',
+                    'System switched to MANUAL mode',
+                    'warning',
+                    3000
+                );
+            });
+            
+            document.getElementById('btnStart').addEventListener('click', () => {
+                playClickSound('start');
+                sendCommand('pump', 'state=ON');
+                updatePumpStatus('ON');
+                showFloatingNotification(
+                    '🚰 Pump Started',
+                    'Irrigation pump activated successfully',
+                    'success',
+                    3000
+                );
+            });
+            
+            document.getElementById('btnStop').addEventListener('click', () => {
+                playClickSound('stop');
+                sendCommand('pump', 'state=OFF');
+                updatePumpStatus('OFF');
+                showFloatingNotification(
+                    '🛑 Pump Stopped',
+                    'Irrigation pump deactivated',
+                    'warning',
+                    3000
+                );
+            });
+            
+            document.getElementById('btnReset').addEventListener('click', () => {
+                playClickSound('reset');
+                if (confirm('Reset pump fault?')) {
+                    sendCommand('reset', 'fault=1');
+                    updatePumpFaultStatus(false);
+                    showFloatingNotification(
+                        '🔧 Fault Reset',
+                        'Pump fault has been reset successfully',
+                        'success',
+                        3000
+                    );
+                }
+            });
+            
+            document.getElementById('thresholdSlider').addEventListener('input', function(e) {
+                document.getElementById('thresholdDisp').textContent = e.target.value;
+            });
+            
+            document.getElementById('thresholdSlider').addEventListener('change', function(e) {
+                playClickSound('normal');
+                sendCommand('threshold', 'value=' + e.target.value);
+                showFloatingNotification(
+                    '⚙️ Threshold Updated',
+                    `Moisture threshold set to ${e.target.value}`,
+                    'success',
+                    3000
+                );
+            });
+            
+            document.getElementById('presetWheat').addEventListener('click', () => {
+                playClickSound('normal');
+                document.getElementById('thresholdSlider').value = 650;
+                document.getElementById('thresholdDisp').textContent = '650';
+                document.getElementById('cropName').textContent = 'Wheat';
+                sendCommand('threshold', 'value=650');
+                showFloatingNotification(
+                    '🌾 Crop Preset',
+                    'Wheat crop settings activated',
+                    'success',
+                    3000
+                );
+            });
+            
+            document.getElementById('presetRice').addEventListener('click', () => {
+                playClickSound('normal');
+                document.getElementById('thresholdSlider').value = 400;
+                document.getElementById('thresholdDisp').textContent = '400';
+                document.getElementById('cropName').textContent = 'Rice';
+                sendCommand('threshold', 'value=400');
+                showFloatingNotification(
+                    '🌾 Crop Preset',
+                    'Rice crop settings activated',
+                    'success',
+                    3000
+                );
+            });
+            
+            document.getElementById('presetCotton').addEventListener('click', () => {
+                playClickSound('normal');
+                document.getElementById('thresholdSlider').value = 700;
+                document.getElementById('thresholdDisp').textContent = '700';
+                document.getElementById('cropName').textContent = 'Cotton';
+                sendCommand('threshold', 'value=700');
+                showFloatingNotification(
+                    '🌱 Crop Preset',
+                    'Cotton crop settings activated',
+                    'success',
+                    3000
+                );
+            });
+        }
+        
+        // Uptime
+        function updateUptime() {
+            const elapsed = Date.now() - APP.state.startTime;
+            const hours = Math.floor(elapsed / 3600000);
+            const minutes = Math.floor((elapsed % 3600000) / 60000);
+            
+            document.getElementById('uptime').textContent = 
+                String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0');
+        }
+        
+        // टेस्टिंग के लिए: पंप फॉल्ट टॉगल करें
+        function togglePumpFaultDemo() {
+            playClickSound('normal');
+            if (APP.state.pumpFault) {
+                if (confirm('Reset pump fault?')) {
+                    updatePumpFaultStatus(false);
+                }
+            } else {
+                if (confirm('Simulate pump fault?')) {
+                    updatePumpFaultStatus(true);
+                }
+            }
+        }
+        
+        // Initialize
+        function init() {
+            initAudio();
+            loadConfig();
+            initTheme();
+            setupTouchEvents();
+            createParticles();
+            initParallax();
+            init3DCards();
+            initRippleEffect();
+            
+            updatePumpStatus('OFF');
+            
+            console.log('🚜 FarmAI Pro Ready! (Dark/Light Mode + Notifications + Sound)');
+            
+            if ('ontouchstart' in window || navigator.maxTouchPoints) {
+                document.body.classList.add('touch-device');
+            }
+            
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 767) {
+                    document.querySelectorAll('.mobile-section').forEach(section => {
+                        section.classList.add('active');
+                    });
+                } else {
+                    document.querySelectorAll('.mobile-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(APP.state.currentMobileSection).classList.add('active');
+                }
+            });
+            
+            setTimeout(() => {
+                showFloatingNotification(
+                    '🚜 Welcome to FarmAI Pro!',
+                    'Smart irrigation system ready to monitor your farm',
+                    'info',
+                    4000
+                );
+            }, 4000);
+        }
+        
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
